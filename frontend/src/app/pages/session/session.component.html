@@ -1,0 +1,104 @@
+<div *ngIf="error" class="card-surface rounded-3xl p-6 text-rose-200">
+  {{ error }}
+</div>
+
+<div *ngIf="!error && isLoading" class="space-y-6">
+  <div class="card-surface rounded-3xl p-6">
+    <div class="skeleton-line w-32"></div>
+    <div class="skeleton-line mt-4 w-2/3"></div>
+    <div class="skeleton-line mt-3 w-1/3"></div>
+  </div>
+  <div class="card-surface rounded-3xl p-6">
+    <div class="skeleton-line w-40"></div>
+    <div class="skeleton-line mt-4 w-full"></div>
+    <div class="mt-4 grid gap-3">
+      <div class="skeleton-pill"></div>
+      <div class="skeleton-pill"></div>
+      <div class="skeleton-pill"></div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!error && !isLoading && quiz" class="space-y-6">
+  <div class="card-surface flex flex-col gap-4 rounded-3xl p-6 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Session</p>
+      <h2 class="text-2xl font-semibold text-white">{{ quiz.title }}</h2>
+      <p class="mt-1 text-sm text-slate-300">Player: {{ nickname }}</p>
+    </div>
+    <div class="rounded-2xl border border-slate-700 bg-slate-900/50 px-5 py-3 text-center">
+      <p class="text-xs uppercase text-slate-400">Time left</p>
+      <p class="text-2xl font-semibold text-cyan-200">{{ countdownLabel }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="expired" class="card-surface rounded-3xl border border-rose-400 p-6 text-rose-200">
+    This Quiz has Expired.
+  </div>
+
+  <div *ngIf="!finished" class="card-surface rounded-3xl p-6">
+    <p class="text-sm text-slate-400">Question {{ currentIndex + 1 }} of {{ quiz.questions.length }}</p>
+    <p class="mt-1 text-xs text-slate-400">Score: {{ currentScore }} / {{ quiz.questions.length }}</p>
+    <h3 class="mt-2 text-xl font-semibold text-white">{{ currentQuestion?.question }}</h3>
+
+    <div class="mt-4 grid gap-3">
+      <button
+        *ngFor="let option of currentQuestion?.options; let idx = index"
+        type="button"
+        class="rounded-2xl border px-4 py-3 text-left transition"
+        [ngClass]="{
+          'border-cyan-400 bg-cyan-400/10 text-white': selectedIndex === idx,
+          'border-slate-700 bg-slate-950/50 text-slate-200 hover:border-cyan-400': selectedIndex !== idx
+        }"
+        (click)="selectOption(idx)"
+        [disabled]="expired || finished || answered[currentIndex]"
+      >
+        {{ option }}
+      </button>
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div
+          *ngIf="answerFeedback && answered[currentIndex]"
+          class="text-xs font-semibold"
+          [ngClass]="answerIsCorrect ? 'text-emerald-300' : 'text-rose-300'"
+        >
+          {{ answerFeedback }}
+        </div>
+        <div class="text-xs text-slate-400">Auto-save every question.</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="rounded-full border border-cyan-400 px-5 py-2 text-sm font-semibold text-cyan-200"
+          (click)="submitAnswer()"
+          [disabled]="expired || selectedIndex === null || answered[currentIndex]"
+        >
+          {{ currentIndex === quiz.questions.length - 1 ? 'Submit & Finish' : 'Submit Answer' }}
+        </button>
+        <button
+          type="button"
+          class="rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-900"
+          (click)="next()"
+          [disabled]="expired || !answered[currentIndex] || currentIndex >= quiz.questions.length - 1"
+          *ngIf="quiz.questions.length > 1"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="finished" class="card-surface rounded-3xl p-6">
+    <h3 class="text-xl font-semibold text-white">Quiz complete</h3>
+    <p class="mt-2 text-sm text-slate-300">
+      You scored <span class="text-cyan-200">{{ score }}</span> out of {{ quiz.questions.length }}.
+    </p>
+    <a
+      class="mt-4 inline-flex items-center rounded-full border border-orange-400 px-4 py-2 text-sm text-orange-200"
+      [routerLink]="['/leaderboard', quiz.quizCode]"
+      >View Live Leaderboard</a
+    >
+  </div>
+</div>

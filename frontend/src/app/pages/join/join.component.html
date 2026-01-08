@@ -1,0 +1,52 @@
+<div class="card-surface rounded-3xl p-8">
+  <h2 class="text-2xl font-semibold text-white">Join a live quiz</h2>
+  <p class="mt-2 text-sm text-slate-300">Enter the 6-character room code and your nickname.</p>
+
+  <form class="mt-6 space-y-4" [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label class="text-xs uppercase text-slate-400">Quiz Code</label>
+      <input
+        class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-white focus:border-orange-400 focus:outline-none"
+        formControlName="code"
+        placeholder="AB12CD"
+      />
+      <p
+        *ngIf="form.get('code')?.touched && form.get('code')?.hasError('required')"
+        class="mt-2 text-xs text-rose-300"
+      >
+        Quiz code is required.
+      </p>
+    </div>
+    <div>
+      <label class="text-xs uppercase text-slate-400">Nickname</label>
+      <input
+        class="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/60 px-4 py-3 text-white focus:border-orange-400 focus:outline-none"
+        formControlName="nickname"
+        placeholder="LightningFox"
+      />
+      <p
+        *ngIf="form.get('nickname')?.touched && form.get('nickname')?.hasError('required')"
+        class="mt-2 text-xs text-rose-300"
+      >
+        Nickname is required.
+      </p>
+    </div>
+
+    <button
+      type="submit"
+      class="inline-flex items-center gap-2 rounded-full bg-orange-400 px-6 py-3 text-sm font-semibold text-slate-900"
+      [disabled]="isJoining"
+    >
+      <span
+        *ngIf="isJoining"
+        class="h-4 w-4 animate-spin rounded-full border-2 border-slate-900/30 border-t-slate-900"
+      ></span>
+      {{ isJoining ? 'Joining...' : 'Join Room' }}
+    </button>
+    <div *ngIf="isJoining" class="mt-3 flex items-center gap-2 text-xs text-orange-200">
+      <span class="pulse-dot"></span>
+      Connecting you to the room...
+    </div>
+    <p *ngIf="joinError" class="text-sm text-rose-300">{{ joinError }}</p>
+  </form>
+</div>

@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.leaderboard-skeleton {
+  height: 56px;
+  border-radius: 24px;
+  background: linear-gradient(110deg, rgba(15, 23, 42, 0.9) 8%, rgba(30, 41, 59, 0.9) 18%, rgba(15, 23, 42, 0.9) 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.status-dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.status-correct {
+  background-color: #34d399;
+  border-color: #34d399;
+}
+
+.status-wrong {
+  background-color: #fb7185;
+  border-color: #fb7185;
+}
+
+.status-unanswered {
+  background-color: #1f2937;
+  border-color: rgba(148, 163, 184, 0.4);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

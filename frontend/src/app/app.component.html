@@ -1,0 +1,43 @@
+<div class="min-h-screen">
+  <header class="mx-auto flex max-w-6xl flex-col gap-4 px-6 pb-6 pt-8 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.3em] text-slate-400">DecaQuiz</p>
+      <h1 class="text-3xl font-semibold text-white md:text-4xl">Ten minutes. Twenty minds. One scoreboard.</h1>
+    </div>
+    <nav class="flex flex-wrap items-center gap-3 text-sm">
+      <a
+        routerLink="/create"
+        routerLinkActive="text-white"
+        class="rounded-full border border-slate-700 px-4 py-2 text-slate-300 transition hover:border-cyan-400 hover:text-white"
+        >Host</a
+      >
+      <a
+        routerLink="/join"
+        routerLinkActive="text-white"
+        class="rounded-full border border-slate-700 px-4 py-2 text-slate-300 transition hover:border-orange-400 hover:text-white"
+        >Join</a
+      >
+      <button
+        type="button"
+        class="rounded-full border border-slate-700 px-4 py-2 text-slate-300 transition hover:border-emerald-400 hover:text-white"
+        (click)="toggleTheme()"
+      >
+        {{ isLightMode ? 'Dark mode' : 'Light mode' }}
+      </button>
+    </nav>
+  </header>
+
+  <main class="mx-auto w-full max-w-6xl px-6 pb-16">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="site-footer mx-auto w-full max-w-6xl px-6 pb-10 pt-6">
+    <div class="footer-card card-surface rounded-3xl px-6 py-4">
+      <div class="flex flex-col gap-2 text-sm text-slate-300 md:flex-row md:items-center md:justify-between">
+        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">DecaQuizzz</p>
+        <p>(c) {{ currentYear }} DecaQuizzz. All rights reserved.</p>
+        <p class="text-xs text-slate-400">Built for fast, temporary quizzes.</p>
+      </div>
+    </div>
+  </footer>
+</div>
