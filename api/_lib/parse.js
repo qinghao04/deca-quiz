@@ -17,11 +17,8 @@ function parseRowToQuestion(row) {
   let correctIndex = 0;
   const last = optionParts[optionParts.length - 1];
   const maybeIndex = Number.parseInt(last, 10);
-  // Check if the last value is a 1-based answer index (human-readable format)
-  // Valid range: 1 to (optionParts.length - 1) since last element is the index itself
-  if (Number.isInteger(maybeIndex) && maybeIndex >= 1 && maybeIndex <= optionParts.length - 1) {
-    // Convert from 1-based (human readable) to 0-based index
-    correctIndex = maybeIndex - 1;
+  if (Number.isInteger(maybeIndex) && maybeIndex >= 0 && maybeIndex < optionParts.length - 1) {
+    correctIndex = maybeIndex;
     optionParts.pop();
   }
 

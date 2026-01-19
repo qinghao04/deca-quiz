@@ -135,8 +135,8 @@
                 <input
                   type="radio"
                   class="option-radio"
-                  formControlName="correctIndex"
-                  [value]="j"
+                  [checked]="questionGroup.get('correctIndex')?.value === j"
+                  (change)="questionGroup.get('correctIndex')?.setValue(j)"
                   [attr.name]="'correct-' + i"
                 />
                 Correct
